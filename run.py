@@ -30,7 +30,7 @@ instruction_file_path = ''# input("Enter the path to the instruction file (leave
 
 try:
     # Check if the provided file exists
-    check_file(file_path)
+    #check_file(file_path)
 
     # Generate transcript and SOAP/BIRP notes based on preferences
     transcript = generate_transcript_from_file(file_path, soap=soap_preference, birp=birp_preference,

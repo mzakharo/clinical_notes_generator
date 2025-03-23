@@ -20,8 +20,6 @@ Functions:
 import os
 import time
 import subprocess
-import torch
-from transformers import AutoModelForSpeechSeq2Seq, AutoProcessor, pipeline
 
 import modules.utils
 from modules.model import query_bedrock_sonet
@@ -71,6 +69,9 @@ def generate_birp_post_processing(transcript, instruction_file_path):
 
 
 def get_transcript(audio_path):
+    
+    import torch
+    from transformers import AutoModelForSpeechSeq2Seq, AutoProcessor, pipeline
     """
     Extract transcript from audio file using Automatic Speech Recognition (ASR).
 
@@ -131,7 +132,7 @@ def generate_transcript_from_file(file_path, soap=False, birp=False, instruction
     start_time = time.time()
 
 
-    with open('transcript2.txt', 'r') as f:
+    with open('transcripts/transcript2.txt', 'r') as f:
         transcript = f.read()
     # Step1: Generate transcript
     #transcript = get_transcript(file_path)

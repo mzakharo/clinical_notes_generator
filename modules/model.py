@@ -12,9 +12,7 @@ Functions:
         Query the Bedrock SONET model with the provided prompt.
 """
 
-import json
 import os
-import boto3
 from modules.utils import load_config_data
 
 from ollama import Client
@@ -40,12 +38,12 @@ def query_bedrock_sonet(prompt):
         dict: Response from the Bedrock SONET model.
     """
     client = Client(
-        host='http://DESKTOP-9NKPN1L.home.arpa:11434',
+        host='http://localhost:11434',
     )
     # Load the AWS credentials data
 
-    model = 'gemma3:1b'
-    ctx = next_power_of_2(len(prompt))
+    model = 'gemma3:12b'
+    ctx = 4096 #next_power_of_2(len(prompt))
     print('ctx', len(prompt), ctx)
     user_input = prompt
     messages = []
