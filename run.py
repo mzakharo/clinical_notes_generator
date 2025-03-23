@@ -23,10 +23,10 @@ from modules import generate_transcript_from_file
 from modules.utils import check_file
 
 # Prompting user for file path and preferences
-file_path = input("Enter the file path: ")
-soap_preference = input("Do you want SOAP notes? (yes/no): ").lower() == "yes"
-birp_preference = input("Do you want BIRP notes? (yes/no): ").lower() == "yes"
-instruction_file_path = input("Enter the path to the instruction file (leave blank if none): ").strip()
+file_path = 'out.mp3' # input("Enter the file path: ")
+soap_preference = False # input("Do you want SOAP notes? (yes/no): ").lower() == "yes"
+birp_preference = True #input("Do you want BIRP notes? (yes/no): ").lower() == "yes"
+instruction_file_path = ''# input("Enter the path to the instruction file (leave blank if none): ").strip()
 
 try:
     # Check if the provided file exists

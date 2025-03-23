@@ -2,19 +2,23 @@ import argparse
 
 def generate_custom_birp_prompt(transcript, instructions_file=None):
     # Define the prompt template with placeholders
-    prompt_template = f"""\n\nHuman: You are an AI assistant trained to provide resources for clinicians to document behavioral therapy sessions using the BIRP (Behavior, Intervention, Response, Plan) format based on a given transcript. 
+    prompt_template = f"""\n\nHuman: You are an AI assistant trained to provide resources for therapists to document behavioral therapy sessions using the BIRP (Behavior, Intervention, Response, Plan) format based on a given transcript. 
     Your task is to generate BIRP note using the following transcript, including placeholders for each section (Behavior, Intervention, Response, Plan), but do not include any specific patient details or scenarios.
-    A BIRP note is a healthcare documentation used by clinicians, therapists, and other healthcare professionals to summarize a patient's session or visit.The acronym "BIRP" stands for:
+    A BIRP note is a healthcare documentation used by clinicians, therapists, and other healthcare professionals to summarize clients's session or visit.The acronym "BIRP" stands for:
     
-    Behavior: Describes the patient's observable actions or behaviors during the session.
-    Intervention: Outlines the interventions or techniques used by the clinician to address the patient's needs or concerns.
-    Response: Records the patient's response to the interventions or how they reacted to the session.
-    Plan: Outlines the plan for future sessions or next steps in the patient's treatment or care.
+    Behavior: Describes the clients's observable actions or behaviors during the session.
+    Intervention: Outlines the interventions or techniques used by the clinician to address the clients's needs or concerns.
+    Response: Records the clients's response to the interventions or how they reacted to the session.
+    Plan: Outlines the plan for future sessions or next steps in the clients's treatment or care.
     
     <Transcript>
     \n{transcript}\n
     </Transcript>
     
+    
+    """
+
+    '''
     Here below is an example BIRP from a patient encounter. The output should be exactly like the example but based of the input transcript.
     <example>
     BIRP Note
@@ -36,7 +40,8 @@ def generate_custom_birp_prompt(transcript, instructions_file=None):
     Agreed to continue practicing relaxation techniques daily and to monitor stress levels using a mood journal. Scheduled a follow-up appointment in two weeks to assess progress and further refine coping skills. Provided resources for additional support, including online stress management workshops and relaxation apps.
     
     </example> 
-    """
+    '''
+
 
     # Add instructions from file if provided
     if instructions_file:

@@ -17,6 +17,13 @@ import os
 import boto3
 from modules.utils import load_config_data
 
+from ollama import Client
+from ollama import ChatResponse
+
+
+def next_power_of_2(x):  
+    return 1 if x == 0 else 2**(x - 1).bit_length()
+
 # Get the path to the config.json file
 project_root = os.path.dirname(os.path.dirname(__file__))  # Navigate 2 levels up from the script directory
 config_file_path = os.path.join(project_root, 'config.json')
@@ -32,33 +39,31 @@ def query_bedrock_sonet(prompt):
     Returns:
         dict: Response from the Bedrock SONET model.
     """
+    client = Client(
+        host='http://DESKTOP-9NKPN1L.home.arpa:11434',
+    )
     # Load the AWS credentials data
-    aws_credentials = load_config_data(config_file_path)
-    region = aws_credentials['region']
 
-    # Initialize the Bedrock client
-    bedrock = boto3.client(
-        service_name="bedrock-runtime", region_name=region
-    )
-    model_id = "anthropic.claude-3-sonnet-20240229-v1:0"
+    model = 'gemma3:1b'
+    ctx = next_power_of_2(len(prompt))
+    print('ctx', len(prompt), ctx)
+    user_input = prompt
+    messages = []
+    while True:
+         # Add the response to the messages to maintain the history
+        messages += [
+            {'role': 'user', 'content': user_input}];        
+        stream  = client.chat(model=model, options={'num_ctx': ctx}, messages=messages ,    stream=True )
 
-    # Invoke the Bedrock SONET model
-    response = bedrock.invoke_model(
-        modelId=model_id,
-        body=json.dumps(
-            {
-                "anthropic_version": "bedrock-2023-05-31",
-                "max_tokens": 4086,
-                "messages": [
-                    {
-                        "role": "user",
-                        "content": [{"type": "text", "text": prompt}],
-                    }
-                ],
-            }
-        ),
-    )
+        response = ''
+        for chunk in stream:
+             response += chunk['message']['content']
+             print(chunk['message']['content'], end='', flush=True)
 
-    # Process and return the response
-    result = json.loads(response.get("body").read())
-    return result
+        messages += [
+            {'role': 'assistant', 'content':response},
+        ]
+        user_input = input('\nChat: ')
+       
+
+    return response.message.content

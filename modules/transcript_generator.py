@@ -130,19 +130,22 @@ def generate_transcript_from_file(file_path, soap=False, birp=False, instruction
     # Start timer
     start_time = time.time()
 
+
+    with open('transcript2.txt', 'r') as f:
+        transcript = f.read()
     # Step1: Generate transcript
-    transcript = get_transcript(file_path)
+    #transcript = get_transcript(file_path)
+    #with open('transcript.txt', 'w') as f:
+    #    f.write(transcript)
 
     # Step2: Apply SOAP, BIRP, or both post-processing steps if requested
     if soap:
-        soap_notes = generate_soap_post_processing(transcript, instructions_file)
-        soap_text = soap_notes['content'][0]['text']  # Extract the 'text' content from the dictionary
+        soap_text = generate_soap_post_processing(transcript, instructions_file)
         save_file(soap_text, '')
         print("SOAP note saved....")
 
     if birp:
-        birp_notes = generate_birp_post_processing(transcript, instructions_file)
-        birp_text = birp_notes['content'][0]['text']  # Extract the 'text' content from the dictionary
+        birp_text = generate_birp_post_processing(transcript, instructions_file)
         save_file(birp_text, '')
         print("BIRP note saved....")
 
